@@ -1,56 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
   const state = getStoredStateOrDefault({
-    counter: 40
+    tasks: [{
+      text: "Make sfedu great again!",
+      done: false,
+      id: 0,
+    }, {
+      text: "Make sfedu even greater! Far more greater! Greater than sun!",
+      done: false,
+      id: 1,
+    }],
+    currentId: 2
   })
-
-  const $incrButton = document.querySelector('.incr')!
-  const $decrButton = document.querySelector('.decr')!
-
 
   const $gauge = document.querySelector('.gauge')! as HTMLDivElement
-  setGaugePercent($gauge, state.counter)
 
-  $incrButton.addEventListener('click', () => {
-    state.counter = Math.min(state.counter + 10, 100)
-    saveState(state)
-    setGaugePercent($gauge, state.counter)
-  })
-
-  $decrButton.addEventListener('click', () => {
-    state.counter = Math.max(state.counter - 10, 0)
-    saveState(state)
-    setGaugePercent($gauge, state.counter)
-  })
+  const updateGauge = () => {
+    let totalTasks = state.tasks.length
+    let doneTasks = state.tasks.filter(task => task.done).length
+    setGaugePercent($gauge, totalTasks == 0 ? 0 : (doneTasks / totalTasks) * 100)
+  }
 
   const taskList = document.querySelector('.task-container')! as HTMLDivElement
   const createButton = document.querySelector('.task-creator__button')!
   const taskNameInput = document.querySelector('.task-creator__text')! as HTMLInputElement
 
-  addTask(taskList, "Make sfedu great again!")
-  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
-  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
-  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
-  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
-  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+  const taskDestructor = (ev: MouseEvent) => {
+    const parent = (ev.target as HTMLDivElement).parentElement!
+    const id = +parent.getAttribute("data-id")!;
+
+    state.tasks = state.tasks.filter(element => element.id !== id)
+    saveState(state)
+    updateGauge()
+  }
+
+  const checkboxCallback = (ev: MouseEvent, newState: boolean) => {
+    const parent = (ev.target as HTMLDivElement).parentElement!
+    const id = +parent.getAttribute("data-id")!;
+    const [task] = state.tasks.filter(task => task.id === id)
+    task.done = newState
+    saveState(state)
+    updateGauge()
+  }
+
+  for (const task of state.tasks) {
+    addTask(taskList, task.text, task.id, taskDestructor, checkboxCallback)
+  }
 
   createButton.addEventListener('click', () => {
-    addTask(taskList, taskNameInput.value)
+    const task = {
+      text: taskNameInput.value,
+      done: false,
+      id: state.currentId++,
+    }
+
+    addTask(taskList, task.text, task.id, taskDestructor, checkboxCallback)
+
+    state.tasks.push(task)
+    saveState(state)
+    updateGauge()
+
     taskNameInput.value = ""
   })
+
+  updateGauge()
 })
 
-function addTask(taskList: HTMLDivElement, text: string) {
-  let deleteButton = createDiv(["delete-button"])
+function addTask(
+  taskList: HTMLDivElement,
+  text: string,
+  id: number,
+  removeCallback: (ev: MouseEvent) => void = () => { },
+  checkboxCallback: (ev: MouseEvent, newState: boolean) => void = () => { }
+) {
+  const deleteButton = createDiv(["delete-button"])
+  const checkbox = createDiv(['checkbox'])
+  const textbox = createDiv(['text'], text)
 
-  const task = createDiv(['task'], [
-    createDiv(['checkbox']),
-    createDiv(['text'], text),
-    deleteButton,
-  ]);
+  const task = createDiv(['task'], [checkbox, textbox, deleteButton]);
+  task.setAttribute("data-id", id.toString())
 
-  const clickHandler = () => {
+  checkbox.addEventListener('click', (e) => {
+    const target = e.target as HTMLDivElement
+    if (target.classList.contains("checked")) {
+      target.classList.remove("checked")
+      textbox.classList.remove("strike")
+      checkboxCallback(e, false)
+    } else {
+      target.classList.add("checked")
+      textbox.classList.add("strike")
+      checkboxCallback(e, true)
+    }
+  })
+
+  const clickHandler = (ev: MouseEvent) => {
     task.remove()
     deleteButton.removeEventListener('click', clickHandler)
+    removeCallback(ev)
   }
   deleteButton.addEventListener('click', clickHandler)
 

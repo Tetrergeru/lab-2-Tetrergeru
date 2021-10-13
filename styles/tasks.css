@@ -25,8 +25,17 @@
   border: 2px solid #BBC1DA;
 }
 
+.task>.checked {
+  background-color: red;
+}
+
 .task>.text {
   width: 80%;
+}
+
+.task>.strike {
+  text-decoration: line-through;
+  color: #A5A5A5;
 }
 
 .task>.delete-button {
@@ -86,4 +95,9 @@
 .task-container::-webkit-scrollbar-thumb {
   border-radius: 1px;
   background: #D8D8D8;
+}
+
+.tasks-left {
+  font-size: 10px;
+  margin: 12px 0;
 }
