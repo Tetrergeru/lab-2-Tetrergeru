@@ -1,0 +1,47 @@
+.task-container {
+  height: 350px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.task-container>.task {
+  margin: 4px 15px 4px 15px;
+  padding: 8px;
+  background-color: #E8E8E8;
+  display: flex;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.task>.checkbox {
+  background-color: white;
+  margin: 0 8px 0 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  border: 2px solid #BBC1DA;
+}
+
+.task>.text {
+  width: 80%;
+}
+
+.task>.delete-button {
+  display: none;
+  text-align: center;
+  width: 12px;
+  height: 12px;
+  background-color: gray;
+  margin-right: 6px;
+  margin-left: auto;
+}
+
+.task:hover>.delete-button {
+  display: block;
+}
+
+.delete-button:hover {
+  background-color: black;
+  cursor: pointer;
+}

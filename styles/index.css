@@ -1,14 +1,19 @@
-*, *::before, *::after { 
-  padding: 0; margin: 0;
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   min-height: 100% !important;
   height: 100%;
 }
 
 body {
+  background-color: #F7F8FC;
   font-family: "Roboto", sans-serif;
   display: flex;
   width: 100%;
@@ -17,12 +22,13 @@ body {
 }
 
 .container {
-  width: 240px;
-  height: 240px;
+  width: 431px;
+  height: 461px;
   border: 1px solid #E8E8E8;
+  background-color: white;
   border-radius: 4px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 }
