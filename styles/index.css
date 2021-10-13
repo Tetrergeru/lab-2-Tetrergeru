@@ -31,6 +31,7 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 14px;
 }
 
 .button {

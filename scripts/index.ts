@@ -22,26 +22,40 @@ document.addEventListener('DOMContentLoaded', () => {
     setGaugePercent($gauge, state.counter)
   })
 
-  const createButton = document.querySelector('.create-task')!
   const taskList = document.querySelector('.task-container')! as HTMLDivElement
+  const createButton = document.querySelector('.task-creator__button')!
+  const taskNameInput = document.querySelector('.task-creator__text')! as HTMLInputElement
+
+  addTask(taskList, "Make sfedu great again!")
+  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+  addTask(taskList, "Make sfedu even greater! Far more greater! Greater than sun!")
+
   createButton.addEventListener('click', () => {
-    let deleteButton = createDiv(["delete-button"])
-    
-    const task = createDiv(['task'], [
-      createDiv(['checkbox']),
-      createDiv(['text'], "Make sfedu great again"),
-      deleteButton,
-    ]);
-
-    const clickHandler = () => {
-      task.remove()
-      deleteButton.removeEventListener('click', clickHandler)
-    }
-    deleteButton.addEventListener('click', clickHandler)
-
-    taskList.appendChild(task)
+    addTask(taskList, taskNameInput.value)
+    taskNameInput.value = ""
   })
 })
+
+function addTask(taskList: HTMLDivElement, text: string) {
+  let deleteButton = createDiv(["delete-button"])
+
+  const task = createDiv(['task'], [
+    createDiv(['checkbox']),
+    createDiv(['text'], text),
+    deleteButton,
+  ]);
+
+  const clickHandler = () => {
+    task.remove()
+    deleteButton.removeEventListener('click', clickHandler)
+  }
+  deleteButton.addEventListener('click', clickHandler)
+
+  taskList.insertBefore(task, taskList.children[taskList.children.length - 1])
+}
 
 function createDiv(styles: string[] = [], content: HTMLElement[] | string = ""): HTMLElement {
   const div = document.createElement('div')
@@ -50,7 +64,7 @@ function createDiv(styles: string[] = [], content: HTMLElement[] | string = ""):
   if (typeof (content) === 'string') {
     div.innerText = content
   } else {
-    for (const child of content){
+    for (const child of content) {
       div.appendChild(child)
     }
   }

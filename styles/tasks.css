@@ -2,10 +2,12 @@
   height: 350px;
   width: 100%;
   overflow-y: auto;
+  scrollbar-gutter: stable;
+  margin-right: 6px;
 }
 
-.task-container>.task {
-  margin: 4px 15px 4px 15px;
+.task {
+  margin: 4px 5px 4px 15px;
   padding: 8px;
   background-color: #E8E8E8;
   display: flex;
@@ -44,4 +46,44 @@
 .delete-button:hover {
   background-color: black;
   cursor: pointer;
+}
+
+.task-creator {
+  margin: 4px 15px 4px 15px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.task-creator__button {
+  background-color: white;
+  margin: 0 8px 0 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  border: 2px solid black;
+}
+
+.task-creator__text {
+  width: 90%;
+  border: none;
+  height: 25px;
+  padding: 4px;
+}
+
+.task-creator__text::selection {
+  width: 90%;
+  border: none;
+  height: 25px;
+  padding: 4px;
+}
+
+.task-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.task-container::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: #D8D8D8;
 }
