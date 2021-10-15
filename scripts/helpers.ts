@@ -22,3 +22,17 @@ function getStoredStateOrDefault<T extends object>(defaultState: T): T {
     return defaultState
   }
 }
+
+function createDiv(styles: string[] = [], content: HTMLElement[] | string = ""): HTMLElement {
+    const div = document.createElement('div')
+    for (const style of styles)
+        div.classList.add(style)
+    if (typeof (content) === 'string') {
+        div.innerText = content
+    } else {
+        for (const child of content) {
+            div.appendChild(child)
+        }
+    }
+    return div
+}
