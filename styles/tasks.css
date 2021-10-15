@@ -15,46 +15,67 @@
   align-items: center;
 }
 
-.task>.checkbox {
+.next-day {
+  padding: 6px;
+  border: 2px solid blue;
+}
+
+.checkbox {
+  align-items: center;
+  justify-content: center;
   background-color: white;
   margin: 0 8px 0 0;
-  display: block;
+  display: flex;
   width: 24px;
   height: 24px;
   border-radius: 8px;
   border: 2px solid #BBC1DA;
 }
 
-.task>.checked {
-  background-color: red;
+.checkbox path {
+  display: none;
 }
 
-.task>.text {
+.checkbox:hover path {
+  display: block;
+}
+
+.checked path {
+  display: block;
+  fill: black;
+}
+
+.text {
+  font-family: "Roboto", sans-serif;
   width: 80%;
+  font-size: 16px;
 }
 
-.task>.strike {
+.strike {
   text-decoration: line-through;
   color: #A5A5A5;
 }
 
-.task>.delete-button {
+.delete-button {
   display: none;
   text-align: center;
   width: 12px;
   height: 12px;
-  background-color: gray;
+  color: gray;
   margin-right: 6px;
   margin-left: auto;
 }
 
 .task:hover>.delete-button {
-  display: block;
+  display: flex;
 }
 
 .delete-button:hover {
-  background-color: black;
   cursor: pointer;
+}
+
+.delete-button:hover path {
+  fill: black;
 }
 
 .task-creator {
@@ -65,27 +86,42 @@
 }
 
 .task-creator__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   margin: 0 8px 0 0;
-  display: block;
   width: 24px;
   height: 24px;
-  border-radius: 8px;
-  border: 2px solid black;
+}
+
+.task-creator:hover .task-creator__button path {
+  fill: black;
 }
 
 .task-creator__text {
-  width: 90%;
+  font-family: "Roboto", sans-serif;
+  width: 80%;
   border: none;
   height: 25px;
-  padding: 4px;
+  font-size: 16px;
+  color: black;
 }
 
-.task-creator__text::selection {
-  width: 90%;
-  border: none;
-  height: 25px;
-  padding: 4px;
+.task-creator__text::placeholder {
+  color: #A5A5A5;
+}
+
+.task-creator:hover .task-creator__text::placeholder {
+  color: black;
+}
+
+.task-creator__text:hover {
+  cursor: text;
+}
+
+.task-creator__text:focus {
+  outline-width: 0;
 }
 
 .task-container::-webkit-scrollbar {

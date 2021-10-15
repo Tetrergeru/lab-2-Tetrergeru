@@ -9,6 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     setGaugePercent(gauge, +donePercents.toPrecision(2))
   });
 
+  const newDayButton = document.querySelector('.new-day-button')! as HTMLDivElement
+
+  newDayButton.addEventListener('click', () => {
+    taskManager.nextDay();
+  })
+  newDayButton.addEventListener('mousedown', () => {
+    newDayButton.classList.add('new-day-button__down')
+  })
+  newDayButton.addEventListener('mouseup', () => {
+    newDayButton.classList.remove('new-day-button__down')
+  })
+
   const createButton = document.querySelector('.task-creator__button')!
   const taskNameInput = document.querySelector('.task-creator__text')! as HTMLInputElement
 
