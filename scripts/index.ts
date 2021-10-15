@@ -2,11 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const gauge = document.querySelector('.gauge')! as HTMLDivElement
 
+  const tasksLeft = document.querySelector('.tasks-left')! as HTMLDivElement
+
   const taskManager = new TaskManager((tasks) => {
     const totalTasks = tasks.length
     const doneTasks = tasks.filter(task => task.done).length
     const donePercents = totalTasks == 0 ? 0 : doneTasks / totalTasks * 100
     setGaugePercent(gauge, +donePercents.toPrecision(2))
+
+    const tasksToDo = totalTasks - doneTasks
+    tasksLeft.innerText = `${tasksToDo} task${tasksToDo === 1 ? "": "s"} to do`
   });
 
   const newDayButton = document.querySelector('.new-day-button')! as HTMLDivElement

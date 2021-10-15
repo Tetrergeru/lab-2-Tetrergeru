@@ -60,11 +60,14 @@ body {
   border: 1px solid #E8E8E8;
   display: flex;
   align-items: center;
-  justify-content: center;
   border-radius: 4px;
   left: 16px;
   bottom: 16px;
   font-size: 12px;
+}
+
+.new-day-button svg {
+  margin: 0 6px 0 8px;
 }
 
 .new-day-button:hover {

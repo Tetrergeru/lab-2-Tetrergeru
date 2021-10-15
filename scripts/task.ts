@@ -50,7 +50,7 @@ class TaskManager {
         for (const task of this.tasks) {
             this.createTaskCard(task)
         }
-        updateCallback(this.tasks)
+        this.updateCallback(this.tasks)
     }
 
     public addTask(text: string) {
@@ -64,6 +64,7 @@ class TaskManager {
         this.saveState()
 
         this.createTaskCard(task)
+        this.updateCallback(this.tasks)
     }
 
     public nextDay() {
@@ -97,31 +98,34 @@ class TaskManager {
         const taskCard = createDiv(['task'], [checkbox, textbox, deleteButton]);
         taskCard.setAttribute("data-id", task.id.toString())
 
-        taskCard.addEventListener('click', (ev) => {
+        const nextDayUpdator = () => {
             if (!this.ctrlPressed)
                 return
 
-            if (taskCard.classList.contains("next-day")) {
+            if (task.markedForNextDay) {
                 taskCard.classList.remove("next-day")
                 this.nextDayCallback(task.id, false)
             } else {
                 taskCard.classList.add("next-day")
                 this.nextDayCallback(task.id, true)
             }
-        })
+        }
+        taskCard.addEventListener('click', nextDayUpdator)
 
-        checkbox.addEventListener('click', (e) => {
-            const target = e.target as HTMLDivElement
-            if (target.classList.contains("checked")) {
-                target.classList.remove("checked")
-                textbox.classList.remove("strike")
-                this.checkboxClick(task.id, false)
-            } else {
-                target.classList.add("checked")
+        const checkboxUpdator = () => {
+            if (task.done) {
+                checkbox.classList.add("checked")
                 textbox.classList.add("strike")
-                this.checkboxClick(task.id, true)
+            } else {
+                checkbox.classList.remove("checked")
+                textbox.classList.remove("strike")
             }
+        }
+        checkbox.addEventListener('click', () => {
+            this.checkboxClick(task.id, !task.done)
+            checkboxUpdator()
         })
+        checkboxUpdator()
 
         task.destructor = () => {
             taskCard.remove()
