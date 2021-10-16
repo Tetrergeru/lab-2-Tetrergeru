@@ -4,12 +4,13 @@
   overflow-y: auto;
   scrollbar-gutter: stable;
   margin-right: 6px;
+  margin-bottom: 14px;
 }
 
 .task {
   margin: 4px 5px 4px 15px;
   padding: 8px;
-  background-color: #E8E8E8;
+  background-color: #F1F2F6;
   display: flex;
   border-radius: 8px;
   align-items: center;
@@ -30,6 +31,7 @@
   height: 24px;
   border-radius: 8px;
   border: 2px solid #BBC1DA;
+  cursor: pointer;
 }
 
 .checkbox path {
@@ -83,9 +85,11 @@
   padding: 8px;
   display: flex;
   align-items: center;
+  width: 90%;
 }
 
 .task-creator__button {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,4 +140,11 @@
 .tasks-left {
   font-size: 10px;
   margin: 12px 0;
+}
+
+.to-do__task-creator {
+  padding: 10px 0 10px 0;
+  display: flex;
+  width: 100%;
+  border-top: 2px solid #E9E9E9;
 }

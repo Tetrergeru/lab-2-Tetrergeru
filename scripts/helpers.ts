@@ -2,7 +2,7 @@ const GAUGE_MAX = 329
 
 function setGaugePercent($node: HTMLDivElement, percent: number) {
   const $gaugeCircle = $node.querySelector('.gauge__cirlce-arc')!
-  const $gaugePercent = $node.querySelector('.gauge__percent') as HTMLDivElement
+  const $gaugePercent = $node.querySelector('.gauge__percent_value') as HTMLDivElement
 
   const value = GAUGE_MAX * (percent / 100)
 

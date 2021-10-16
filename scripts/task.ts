@@ -16,7 +16,7 @@ class Task {
     public done: boolean
     public markedForNextDay: boolean
 
-    public constructor(task: RawTask, parent: TaskManager) {
+    public constructor(task: RawTask) {
         this.text = task.text
         this.id = task.id
         this.done = task.done || false
@@ -29,13 +29,12 @@ class Task {
 class TaskManager {
     private tasks: Task[] = []
     private currentId: number = NaN
-    private taskList: HTMLDivElement
+    private taskList: HTMLDivElement | null = null
     private updateCallback: (tasks: Task[]) => void
     private ctrlPressed: boolean = false
 
     public constructor(updateCallback: (tasks: Task[]) => void) {
         this.loadState()
-        this.taskList = document.querySelector('.task-container')! as HTMLDivElement
         this.updateCallback = updateCallback
 
         document.addEventListener('keydown', (e) => {
@@ -46,10 +45,29 @@ class TaskManager {
             if ((e as KeyboardEvent).key === 'Control')
                 this.ctrlPressed = false
         })
+    }
 
+    public get state(): AppState {
+        return this.totalTasks() === 0
+            ? 'NoTasks' : this.todoTasks() === 0
+                ? 'AllDone' : 'SomeTasks'
+    }
+
+    public loadOntoPage() {
+        this.taskList = document.querySelector('.task-container')! as HTMLDivElement
         for (const task of this.tasks) {
             this.createTaskCard(task)
         }
+        this.updateCallback(this.tasks)
+    }
+
+    public removeFromPage() {
+        let tasks = this.tasks.map(task => ({ id: task.id, text: task.text, done: task.done, markedForNextDay: task.markedForNextDay }))
+        for (const task of this.tasks) {
+            task.destructor()
+        }
+        this.tasks = tasks.map(task => new Task(task))
+        this.saveState()
         this.updateCallback(this.tasks)
     }
 
@@ -58,13 +76,21 @@ class TaskManager {
     }
 
     public addRawTask(rawTask: RawTask) {
-        const task = new Task(rawTask, this)
+        const task = new Task(rawTask)
 
         this.tasks.push(task)
         this.saveState()
 
         this.createTaskCard(task)
         this.updateCallback(this.tasks)
+    }
+
+    public todoTasks(): number {
+        return this.tasks.filter(task => !task.done).length
+    }
+
+    public totalTasks(): number {
+        return this.tasks.length
     }
 
     public nextDay() {
@@ -77,12 +103,13 @@ class TaskManager {
             .map(task => task as RawTask)
         this.tasks.forEach(task => task.destructor())
         this.tasks = []
+        console.log(newTasks)
         newTasks.forEach(task => this.addRawTask(task))
     }
 
     private loadState() {
         const state = getStoredStateOrDefault({ tasks: [], currentId: 0 } as State)
-        this.tasks = state.tasks.map(task => new Task(task, this))
+        this.tasks = state.tasks.map(task => new Task(task))
         this.currentId = state.currentId
     }
 
@@ -133,7 +160,7 @@ class TaskManager {
             this.deleteTask(task.id)
         }
         deleteButton.addEventListener('click', task.destructor)
-        this.taskList.insertBefore(taskCard, this.taskList.children[this.taskList.children.length - 1])
+        this.taskList?.insertBefore(taskCard, this.taskList.children[this.taskList.children.length - 1])
     }
 
     public deleteTask(id: number) {
