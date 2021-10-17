@@ -1,0 +1,103 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100% !important;
+  height: 100%;
+}
+
+body {
+  background-color: #F7F8FC;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  font-size: 35px;
+  color: #424242;
+  margin-bottom: 36px;
+}
+
+.container {
+  width: 431px;
+  height: 461px;
+  border: 1px solid #E8E8E8;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.button {
+  width: 74px;
+  height: 24px;
+  border: 1px solid #E8E8E8;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #E8E8E8;
+}
+
+.new-day-button {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  width: 91px;
+  height: 30px;
+  position: fixed;
+  border: 1px solid #E8E8E8;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  left: 16px;
+  bottom: 16px;
+  font-size: 12px;
+}
+
+.new-day-button svg {
+  margin: 0 6px 0 8px;
+}
+
+.new-day-button:hover {
+  background-color: #DCF2E3;
+  cursor: pointer;
+}
+
+.new-day-button:active {
+  background-color: #9BE9B3;
+}
+
+.to-do {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.to-do__whazzup {
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.to-do__question {
+  font-size: 16px;
+  color: #A5A5A5;
+}
