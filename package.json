@@ -4,6 +4,7 @@
     "description": "Assignment Due Oct 14 by 11:30 PM.",
     "main": "index.js",
     "scripts": {
+        "build": "tsc",
         "start": "tsc && live-server --cors --no-browser --no-css-inject ./"
     },
     "repository": {
