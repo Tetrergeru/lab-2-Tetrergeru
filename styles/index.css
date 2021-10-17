@@ -16,9 +16,16 @@ body {
   background-color: #F7F8FC;
   font-family: "Roboto", sans-serif;
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.header {
+  font-size: 35px;
+  color: #424242;
+  margin-bottom: 36px;
 }
 
 .container {

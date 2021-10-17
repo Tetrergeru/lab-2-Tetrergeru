@@ -48,11 +48,19 @@ class TaskManager {
     }
 
     public get state(): AppState {
-        return this.totalTasks() === 0
-            ? 'NoTasks' : this.todoTasks() === 0
+        return this.totalTasks === 0
+            ? 'NoTasks' : this.todoTasks === 0
                 ? 'AllDone' : 'SomeTasks'
     }
 
+    public get todoTasks(): number {
+        return this.tasks.filter(task => !task.done).length
+    }
+
+    public get totalTasks(): number {
+        return this.tasks.length
+    }
+    
     public loadOntoPage() {
         this.taskList = document.querySelector('.task-container')! as HTMLDivElement
         for (const task of this.tasks) {
@@ -62,12 +70,9 @@ class TaskManager {
     }
 
     public removeFromPage() {
-        let tasks = this.tasks.map(task => ({ id: task.id, text: task.text, done: task.done, markedForNextDay: task.markedForNextDay }))
         for (const task of this.tasks) {
             task.destructor()
         }
-        this.tasks = tasks.map(task => new Task(task))
-        this.saveState()
         this.updateCallback(this.tasks)
     }
 
@@ -85,14 +90,6 @@ class TaskManager {
         this.updateCallback(this.tasks)
     }
 
-    public todoTasks(): number {
-        return this.tasks.filter(task => !task.done).length
-    }
-
-    public totalTasks(): number {
-        return this.tasks.length
-    }
-
     public nextDay() {
         let newTasks = this.tasks
             .filter(task => task.markedForNextDay)
@@ -103,7 +100,6 @@ class TaskManager {
             .map(task => task as RawTask)
         this.tasks.forEach(task => task.destructor())
         this.tasks = []
-        console.log(newTasks)
         newTasks.forEach(task => this.addRawTask(task))
     }
 
@@ -120,12 +116,12 @@ class TaskManager {
     private createTaskCard(task: Task) {
         const deleteButton = createDiv(["delete-button"], svgCross, true)
         const checkbox = createDiv(['checkbox'], svgOk, true)
-        const textbox = createDiv(['text'], task.text)
+        const textBox = createDiv(['text'], task.text)
 
-        const taskCard = createDiv(['task'], [checkbox, textbox, deleteButton]);
+        const taskCard = createDiv(['task'], [checkbox, textBox, deleteButton]);
         taskCard.setAttribute("data-id", task.id.toString())
 
-        const nextDayUpdator = () => {
+        const nextDayUpdater = () => {
             if (!this.ctrlPressed)
                 return
 
@@ -137,29 +133,31 @@ class TaskManager {
                 this.nextDayCallback(task.id, true)
             }
         }
-        taskCard.addEventListener('click', nextDayUpdator)
+        taskCard.addEventListener('click', nextDayUpdater)
 
-        const checkboxUpdator = () => {
+        const checkboxUpdater = () => {
             if (task.done) {
                 checkbox.classList.add("checked")
-                textbox.classList.add("strike")
+                textBox.classList.add("strike")
             } else {
                 checkbox.classList.remove("checked")
-                textbox.classList.remove("strike")
+                textBox.classList.remove("strike")
             }
         }
         checkbox.addEventListener('click', () => {
             this.checkboxClick(task.id, !task.done)
-            checkboxUpdator()
+            checkboxUpdater()
         })
-        checkboxUpdator()
+        checkboxUpdater()
 
         task.destructor = () => {
             taskCard.remove()
             deleteButton.removeEventListener('click', task.destructor)
-            this.deleteTask(task.id)
         }
-        deleteButton.addEventListener('click', task.destructor)
+        deleteButton.addEventListener('click', () => {
+            this.deleteTask(task.id)
+            task.destructor()
+        })
         this.taskList?.insertBefore(taskCard, this.taskList.children[this.taskList.children.length - 1])
     }
 
