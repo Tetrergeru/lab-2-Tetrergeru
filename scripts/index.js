@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var reloadState = function () {
         var newState = taskManager.state;
         var oldState = state;
-        console.log(oldState, newState);
         state = newState;
         if (oldState != newState) {
             clearState(oldState);
