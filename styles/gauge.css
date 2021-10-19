@@ -41,6 +41,10 @@
   top: 0;
 }
 
+.gauge__percent_value {
+  margin-left: 10px;
+}
+
 .gauge__percent_box {
   display: flex;
   align-items: flex-start;
