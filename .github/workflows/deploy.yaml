@@ -35,7 +35,9 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
     - name: Zip files
-      run: zip todo-extension.zip ./pubic 
+      run: |-
+        ls -lA
+        zip todo-extension.zip ./pubic 
     - name: Publish release
       uses: svenstaro/upload-release-action@v2
       with:
