@@ -38,7 +38,7 @@ const containerWithSomeTasks = `
 `
 
 const containerWithNoTasks = `
-<embed src="/images/NoTask.svg">
+<embed src="./images/NoTask.svg">
 
 <div class="to-do">
   <div class="to-do__whazzup">
@@ -56,7 +56,7 @@ const containerWithNoTasks = `
 `
 
 const containerWithAllDone = `
-<embed src="/images/AllDone.svg">
+<embed src="./images/AllDone.svg">
 
 <div class="to-do">
   <div class="to-do__whazzup">
