@@ -28,8 +28,19 @@ jobs:
         mv ./styles ./public
         mv ./images ./public
         mv index.html ./public
+        mv manifest.json ./public
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
+    - name: Zip files
+      run: zip todo-extension.zip ./pubic 
+    - name: Publish release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: todo-extension.zip
+        tag: latest
+        overwrite: true
+        body: "My TODO extension!"
