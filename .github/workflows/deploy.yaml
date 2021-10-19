@@ -36,8 +36,7 @@ jobs:
         publish_dir: ./public
     - name: Zip files
       run: |-
-        ls -lA
-        zip todo-extension.zip ./pubic 
+        zip todo-extension.zip ./public 
     - name: Publish release
       uses: svenstaro/upload-release-action@v2
       with:
