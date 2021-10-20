@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var addTask = function () {
         taskManager.addTask(taskNameInput.value);
         taskNameInput.value = "";
+        taskNameInput.focus();
     };
     var createButton;
     var taskNameInput;
@@ -41,6 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
         createButton = document.querySelector('.task-creator__button');
         taskNameInput = document.querySelector('.task-creator__text');
         createButton.addEventListener('click', addTask);
+        taskNameInput.addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
     };
     var reloadState = function () {
         var newState = taskManager.state;
