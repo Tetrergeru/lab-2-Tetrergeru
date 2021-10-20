@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const addTask = () => {
     taskManager.addTask(taskNameInput.value);
     taskNameInput.value = ""
+    taskNameInput.focus()
   }
 
   let createButton: HTMLDivElement
@@ -47,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     createButton = document.querySelector('.task-creator__button')!
     taskNameInput = document.querySelector('.task-creator__text')! as HTMLInputElement
     createButton.addEventListener('click', addTask)
+    taskNameInput.addEventListener('keyup', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter') {
+        addTask()
+      }
+    })
   }
   const reloadState = () => {
     let newState = taskManager.state
